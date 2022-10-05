@@ -1,0 +1,4 @@
+9-firstdirdeletion[+] [unix] (16:01 05/10/2022)                                            2,7 All
+-- INSERT --
+#!/bin/bash
+rmdir /tmp/my_first_directory
