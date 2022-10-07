@@ -1,1 +1,1 @@
- a script that prints the name of the current working directory
+ 0-current_working_directory
