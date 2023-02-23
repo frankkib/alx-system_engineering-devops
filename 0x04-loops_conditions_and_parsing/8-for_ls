@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+# This script displays the content of the current directory
+
+for word in *;
+do
+    echo "$word" | cut -d'-' -f2
+done
