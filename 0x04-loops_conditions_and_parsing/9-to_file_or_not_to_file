@@ -1,16 +1,13 @@
 #!/usr/bin/env bash
 FILENAME="school"
-if [ -e "$FILENAME" ];
-then 
+if [ -e "$FILENAME" ]; then 
 	echo "$FILENAME file exists"
-	if [ -s "$FILENAME" ];
-	then
+	if [ -s "$FILENAME" ]; then
 		echo "$FILENAME file is not empty"
 	else
 		echo "$FILENAME file is empty"
 	fi
-	if [ -f "$FILENAME" ]
-	then 
+	if [ -f "$FILENAME" ]; then 
 		echo "$FILENAME is a regular file"
 	fi
 else
