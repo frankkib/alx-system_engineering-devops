@@ -6,7 +6,7 @@ do
         echo "Hour: $HR"
 	HR=$((HR + 1))
 	MIN=1
-	while [ "$MIN" -le 60 ]
+	while [ "$MIN" -le 59 ]
 	do
 		echo "$MIN"
 		MIN=$((MIN + 1))
