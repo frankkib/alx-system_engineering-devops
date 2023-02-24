@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+#a script that kills all the proccesses
+pkill -f "highlander" --signal SIGKILL
