@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+#checking for active ports
+netstat -lp
