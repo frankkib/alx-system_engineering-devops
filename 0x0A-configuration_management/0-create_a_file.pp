@@ -1,4 +1,9 @@
 # creating a file
+$filename = '/tmp'
+file { $filename:
+  ensure => 'directory'
+}
+
 file { '/tmp/school':
   ensure  => 'file',
   mode    => '0744',
