@@ -2,9 +2,6 @@
 # installing nginx on web server
 sudo get-apt -y upadate
 sudo get-apt -y install nginx
-echo "server{
-listen 80;
-root var/www/html;
-index index.html;}"
+sudo ufw allow "Nginx HTTP"
 echo "Hello World!" > /var/www/html/index.html
 sudo service nginx restart
