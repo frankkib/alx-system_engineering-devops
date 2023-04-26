@@ -1,19 +1,30 @@
 #setting up nginx
 
+
 package { 'nginx':
-  ensure => 'installed',
+  ensure => installed,
 }
-file { '/var/www/html/index.nginx-debian.html':
-  ensure  => 'file',
-  content => 'Hello World!',
-}
-file_path { '/etc/nginx/sites-available/default':
-  ensure  => 'present',
-  after   => 'listen 80 default_server;',
-  line    => 'rewrite ^/redirect_me https://www.youtube.com/watch?v=QH2-TGUlwu4 permanent;',
+
+  # Create Nginx server block
+file { '/etc/nginx/sites-available/default':
+  content => template('nginx/default.conf.erb'),
   notify  => Service['nginx'],
 }
-service { 'nginx':
-  ensure  => 'running',
-  require => Package['nginx'],
+
+#       # Enable Nginx server block
+file { '/etc/nginx/sites-enabled/default':
+  ensure => 'link',
+  target => '/etc/nginx/sites-available/default',
+  notify => Service['nginx'],
+}
+
+#             # Create index.html file
+  file { '/var/www/html/index.html':
+  content => "Hello World!\n",
+  notify  => Service['nginx'],
+}
+          # Define Nginx service
+  service { 'nginx':
+  ensure => 'running',
+  enable => true,
 }
