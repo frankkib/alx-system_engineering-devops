@@ -1,6 +1,5 @@
 # Installing flask
-package { 'Flask':
-  ensure   => '2.10',
-  name     => 'flask',
+package { 'flask':
+  ensure   => '2.1.0',
   provider => 'pip3',
 }
