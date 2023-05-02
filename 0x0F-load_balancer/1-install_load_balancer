@@ -1,0 +1,11 @@
+#!/bin/bash
+# intalling haproxy
+sudo apt-get update
+sudo apt-get install -y haproxy
+sudo sed -i 's/.*global.*/global\n    daemon/g' /etc/haproxy/haproxy.cfg
+sudo sed -i 's/.*defaults.*/defaults\n    mode http\n    timeout connect 5000ms\n    timeout client 50000ms\n    timeout server 50000ms/g' /etc/haproxy/haproxy.cfg
+sudo echo "frontend http-in\n    bind *:80\n    default_backend servers" | sudo tee -a /etc/haproxy/haproxy.cfg
+sudo echo "backend servers\n    balance roundrobin\n    server web-01 [174.129.68.202]-web-01:80 check\n    server web-02 [100.26.53.81]-web-02:80 check" | sudo tee -a /etc/haproxy/haproxy.cfg
+sudo sed -i 's/ENABLED=0/ENABLED=1/g' /etc/default/haproxy
+sudo service haproxy restart
+

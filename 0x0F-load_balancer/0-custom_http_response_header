@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+# configuring two servers
+sudo apt-get -y upadte
+sudo apt-get -y install nginx
+sudo dpkg --configure -a
+sudo ufw allow 'HTTP'
+HOSTNAME=$(ubuntu)
+sudo cp /etc/nginx/sites-available/default /etc/nginx/sites-available/default.bak
+sudo cp /etc/nginx/nginx.conf /etc/nginx/sites-available/
+sudo sed -i "s|root /var/www/html;|root /var/www/html;\n        add_header X-Served-By $HOSTNAME;|" /etc/nginx/sites-available/default
+sudo service nginx restart
