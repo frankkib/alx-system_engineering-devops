@@ -1,11 +1,31 @@
 #!/usr/bin/env bash
-# intalling haproxy
+# intalling haproxyi
+sudo apt-get -y software-properties-common
+sudo apt-get -y ppa:vbernat/haproxy
 sudo apt-get update
 sudo apt-get install -y haproxy
-sudo sed -i 's/.*global.*/global\n    daemon/g' /etc/haproxy/haproxy.cfg
-sudo sed -i 's/.*defaults.*/defaults\n    mode http\n    timeout connect 5000ms\n    timeout client 50000ms\n    timeout server 50000ms/g' /etc/haproxy/haproxy.cfg
-sudo echo "frontend http-in\n    bind *:80\n    default_backend servers" | sudo tee -a /etc/haproxy/haproxy.cfg
-sudo echo "backend servers\n    balance roundrobin\n    server web-01 [174.129.68.202]-web-01:80 check\n    server web-02 [100.26.53.81]-web-02:80 check" | sudo tee -a /etc/haproxy/haproxy.cfg
-sudo sed -i 's/ENABLED=0/ENABLED=1/g' /etc/default/haproxy
+echo "ENABLED=1" >> /etc/default/haproxy
+mv /etc/haproxy/haproxy.cfg{,.original}
+touch /etc/haproxy/haproxy.cfg
+printf %s "global
+	log 127.0.0.1 local0 notice
+	user haproxy
+	group haproxy
+defaults
+	log global
+	mode http
+	retries 3
+	timeout connect 5000
+	timeout client 10000
+	timeout server 10000
+listen hbnb
+	bind 0.0.0.0:80
+	mode http
+	stats enable
+	balance roundrobin
+	server 80820-web-01 174.129.68.202:80 check
+	server 80820-web-02 100.26.53.81:80 check
+" >> /etc/haproxy/haproxy.cfg
+
 sudo service haproxy restart
 
