@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
-# make nginx listen through port 80
-sed -i 's/add_header Expires $expires/add_header Expires $expires;/' /etc/nginx/sites-enabled/default
-systemctl restart nginx
+#make nginx listen through port 80
+ln -sf /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
+systemctl start nginx
+systemctl stop nginx
