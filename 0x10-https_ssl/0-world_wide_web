@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-
 # Bash script displaying the information about subdomains
 
 get_record_type() {
