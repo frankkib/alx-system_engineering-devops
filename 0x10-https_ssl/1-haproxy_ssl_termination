@@ -12,25 +12,30 @@ defaults
     log global
     mode http
     option httplog
-    option dontlognull
-    timeout connect 5000
-    timeout client 50000
-    timeout server 50000
+    timeout connect 5s
+    timeout client 50s
+    timeout server 50s
 
-frontend www-http
-    bind   0.0.0.0:80
-    http-request set-header X-Forwarded-Proto http
-    default_backend www-backend
+frontend http_front
+    bind *:80
+    redirect scheme https if !{ ssl_fc }
+    http-request set-header X-Forwarded-Proto https
+    default_backend http_back
 
-frontend www-https
-    bind *:443 ssl crt /etc/haproxy/certs/example.com.pem
+frontend https_front
+    bind *:443 ssl crt /etc/haproxy/certs/www.holberton.online
     mode http
-    default_backend backend_servers
+    default_backend https_back
 
-backend backend_servers
+backend http_back
     mode http
     balance roundrobin
-    option forwardfor
-    sever 80820-web-01 174.129.68.202:80 check
-    sever 80820-web-02 100.26.53.81:80 check
+    server 80820-web-01 174.129.68.202:80 check
+    server 80820-web-02 100.26.53.81:80 check
+
+backend https_back
+    mode http
+    balance roundrobin
+    server 80820-web-01 174.129.68.202:443 check
+    server 80820-web-02 100.26.53.81:443 check
 
