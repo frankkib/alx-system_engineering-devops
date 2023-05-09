@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+# Bash script displaying the information about sub_domains
+get_record_type() { 
+	nslookup -type=any "$1"."$2" | awk '/^'"$1"'/{print $4, $NF}'
+}
+if [[ $# -eq 0 ]]; then
+	echo "Usage: ./subdomain_info.sh <domain> [<subdomain>]"
+	exit 1
+fi
+domain=$1
+subdomains=("www" "lb-o1" "web-o1" "web-o2")
+if [[ $# -eq 2 ]]; then
+	subdomains=("$2")
+fi
+for subdomain in "${subdomains[@]}"; do
+	info=$(get_record_type "$subdomain" "$domain")
+	echo "The subdomain $subdomain is $info record and points to $info"
+done
