@@ -1,18 +1,28 @@
 #!/usr/bin/env bash
-# Bash script displaying the information about sub_domains
-get_record_type() { 
-	nslookup -type=any "$1"."$2" | awk '/^'"$1"'/{print $4, $NF}'
+
+# Bash script displaying the information about subdomains
+
+get_record_type() {
+    local domain=$1
+    local subdomain=$2
+    local line=$(dig "$subdomain"."$domain" | awk '/^'"$subdomain"'\./{sub(/\.$/, "", $1); print $1, $4, $5}')
+    echo "$line" | awk '{print "The subdomain " $1 " is a " $2 " record and points to " $3}'
 }
+
 if [[ $# -eq 0 ]]; then
-	echo "Usage: ./subdomain_info.sh <domain> [<subdomain>]"
-	exit 1
+    echo "Usage: ./subdomain_info.sh <domain> [<subdomain>]"
+    exit 1
 fi
+
 domain=$1
-subdomains=("www" "lb-o1" "web-o1" "web-o2")
+subdomains=("www" "lb-01" "web-01" "web-02")
+
 if [[ $# -eq 2 ]]; then
-	subdomains=("$2")
+    subdomains=("$2")
 fi
+
 for subdomain in "${subdomains[@]}"; do
-	info=$(get_record_type "$subdomain" "$domain")
-	echo "The subdomain $subdomain is $info record and points to $info"
+    info=$(get_record_type "$domain" "$subdomain")
+    echo "$info"
 done
+
