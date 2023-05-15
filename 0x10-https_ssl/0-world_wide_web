@@ -1,28 +1,27 @@
 #!/usr/bin/env bash
 # Bash script displaying the information about subdomains
+function audit_subdomain {
+    local domain="$1"
+    local subdomain="$2"
+    local result
+    result=$(dig +short "$subdomain"."$domain")
 
-get_record_type() {
-    local domain=$1
-    local subdomain=$2
-    local line
-    line=$(dig "$subdomain"."$domain" | awk '/^'"$subdomain"'\./{sub(/\.$/, "", $1); print $1, $4, $5}')
-    echo "$line" | awk '{print "The subdomain " $1 " is a " $2 " record and points to " $3}'
+    if [[ -n "$result" ]]; then
+	    local record_type
+	    record_type=$(dig "$subdomain"."$domain" | awk '/^;; ANSWER SECTION:$/ { getline; print $4 }')
+	    echo "The subdomain $subdomain is a $record_type record and points to $result"
+    fi
 }
 
-if [[ $# -eq 0 ]]; then
-    echo "Usage: ./subdomain_info.sh <domain> [<subdomain>]"
-    exit 1
+domain="$1"
+subdomain="${2:-all}"
+
+if [[ $subdomain == "all" ]]; then
+    audit_subdomain "$domain" "www"
+    audit_subdomain "$domain" "lb-01"
+    audit_subdomain "$domain" "web-01"
+    audit_subdomain "$domain" "web-02"
+else
+    audit_subdomain "$domain" "$subdomain"
 fi
-
-domain=$1
-subdomains=("www" "lb-01" "web-01" "web-02")
-
-if [[ $# -eq 2 ]]; then
-    subdomains=("$2")
-fi
-
-for subdomain in "${subdomains[@]}"; do
-    info=$(get_record_type "$domain" "$subdomain")
-    echo "$info"
-done
 
