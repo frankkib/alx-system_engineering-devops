@@ -23,7 +23,7 @@ frontend http_front
     default_backend http_back
 
 frontend https_front
-    bind *:443 ssl crt /etc/haproxy/certs/www.holberton.online
+    bind *:443 ssl crt /etc/haproxy/certs/holberton.online
     mode http
     default_backend https_back
 
