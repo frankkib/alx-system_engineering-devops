@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+#Bash script that generates a MySQL dump and creates a compressed archive out of it
+[ -z "$1" ] && echo "Please provide the MySQL root password as an argument." && exit 1
+mysqldump -uroot -p"$1" --all-databases | gzip > "$(date +%d-%m-%Y)".tar.gz
+
