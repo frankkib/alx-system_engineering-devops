@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+#Bash script that configures Nginx 
+apt-get update
+apt-get install -y nginx
+sed -i 's/user\s*www-data/user nginx/' /etc/nginx/nginx.conf
+sed -i 's/listen\s*80/listen 8080/' /etc/nginx/sites-available/default
+service nginx restart
