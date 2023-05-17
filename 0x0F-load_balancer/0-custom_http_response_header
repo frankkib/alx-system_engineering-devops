@@ -2,5 +2,21 @@
 # configuring two servers
 sudo apt-get -y update
 sudo apt-get -y install nginx
-sudo sed -i '/http {/a \        server_tokens off;\n        add_header X-Served-By $hostname;' /etc/nginx/nginx.conf
+SERVER_HOSTNAME=$(hostname)
+
+sudo tee /etc/nginx/conf.d/custom_headers.conf > /dev/null <<EOT
+server {
+    listen 80 default_server;
+    listen [::]:80 default_server;
+
+    server_name _;
+
+    location / {
+        add_header X-Served-By $SERVER_HOSTNAME;
+        proxy_pass http://127.0.0.1;
+    }
+}
+EOT
+
+sudo systemctl restart nginx
 sudo systemctl restart nginx
