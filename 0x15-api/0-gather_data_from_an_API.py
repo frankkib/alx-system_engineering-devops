@@ -38,3 +38,6 @@ def get_employee_todo(employee_id):
     for task in complete:
         task_title = task.get('title')
         print("\t{}".format(task_title))
+
+
+if __name__ == "__main__":
