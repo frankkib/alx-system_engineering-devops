@@ -1,43 +1,41 @@
 #!/usr/bin/python3
-"""python module that retuns employee information"""
-import urllib
-import request
-import json
+"""python module fo return the number of finshed tasks"""
+import requests
+import sys
 
-def get_employee_todo_progress(employee_id):
-    """function that returns employee id"""
-    base_url = 'https://jsonplaceholder.typicode.com/'
-    employee_url = '{}/employees/{}'.format(base_url, employee_id)
-    todos_url = '{}/todos?employeeId={}'.format(base_url, employee_id)
 
-    
-    try:
-        with urllib.request.urlopen(employee_url) as response:
-            employee_data = json.loads(response.read().decode())
-            employee_name = employee_data.get('name')
-    except urllib.error.HTTPError as e:
-        print("Error: Failed to retrieve employee data (status code: {})".format(e.code))
+def main():
+    """A script that returns employee id"""
+    if len(sys.argv) < 2:
+        print("Please provide the user ID as an argument.")
         return
 
-    
+    user_id = sys.argv[1]
+    main_url = 'https://jsonplaceholder.typicode.com'
+
     try:
-        with urllib.request.urlopen(todos_url) as response:
-            todos_data = json.loads(response.read().decode())
-            total_tasks = len(todos_data)
-            completed_tasks = [todo for todo in todos_data if todo.get('completed')]
-            num_completed_tasks = len(completed_tasks)
-    except urllib.error.HTTPError as e:
-        print("Error: Failed to retrieve TODO list (status code: {})".format(e.code))
-        return
+        todo_url = "{}/users/{}/todos".format(main_url, user_id)
+        name_url = "{}/users/{}".format(main_url, user_id)
 
-    
-    print("Employee {} is done with tasks ({}/{}):".format(employee_name, num_completed_tasks, total_tasks))
-    print("{}: {} completed tasks out of {}".format(employee_name, num_completed_tasks, total_tasks))
+        todo_response = requests.get(todo_url)
+        name_response = requests.get(name_url)
 
-    
-    for task in completed_tasks:
-        task_title = task.get('title')
-        print("\t{}".format(task_title))
+        todo_result = todo_response.json()
+        name_result = name_response.json()
+
+        todo_num = len(todo_result)
+        todo_complete = sum(1 for todo in todo_result if todo["completed"])
+
+        name = name_result.get("name")
+
+        print("Employee {} is done with tasks ({}/{})".format(
+            name, todo_complete, todo_num))
+        for todo in todo_result:
+            if todo["completed"]:
+                print("\t{}".format(todo['title']))
+    except requests.exceptions.RequestException as e:
+        print("An error occurred: {}".format(e))
 
 
-if __name__ == "__main__:
+if __name__ == '__main__':
+    main()
