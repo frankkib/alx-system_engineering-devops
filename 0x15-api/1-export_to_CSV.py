@@ -1,4 +1,7 @@
 #!/usr/bin/python3
+"""This script retrieves task data for a given user 
+from a public API and exports the data in CSV format.
+"""
 import csv
 import requests
 import sys
