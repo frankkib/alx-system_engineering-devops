@@ -32,7 +32,7 @@ def main():
 
         name = name_result.get("name")
 
-        filename = "{}.csv".fomat(user_id)
+        filename = "{}.csv".format(user_id)
         with open(filename, mode='w', newline='') as csv_file:
             writer = csv.writer(csv_file)
             writer.writerow(["USER_ID", "USERNAME", "TASK_COMPLETED_STATUS", "TASK_TITLE"])
