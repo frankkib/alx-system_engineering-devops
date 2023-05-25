@@ -35,12 +35,16 @@ def main():
         filename = "{}.csv".format(user_id)
         with open(filename, mode='w', newline='') as csv_file:
             writer = csv.writer(csv_file)
-            writer.writerow(["USER_ID", "USERNAME", "TASK_COMPLETED_STATUS", "TASK_TITLE"])
+            writer.writerow(
+                    ["USER_ID",
+                        "USERNAME", "TASK_COMPLETED_STATUS", "TASK_TITLE"])
 
             for todo in todo_result:
-                task_completed_status = "Completed" if todo["completed"] else "Not Completed"
+                task_completed_status = "Completed"
+                if todo["completed"] else "Not Completed"
                 task_title = todo["title"]
-                writer.writerow([user_id, name, task_completed_status, task_title])
+                writer.writerow(
+                        [user_id, name, task_completed_status, task_title])
 
         print("Task data exported to {} successfully.".format(filename))
 
