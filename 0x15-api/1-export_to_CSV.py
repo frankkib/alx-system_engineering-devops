@@ -40,8 +40,7 @@ def main():
                         "USERNAME", "TASK_COMPLETED_STATUS", "TASK_TITLE"])
 
             for todo in todo_result:
-                task_completed_status = "Completed"
-                if todo["completed"] else "Not Completed"
+                task_completed_status = "Completed" if todo["completed"] else "Not Completed"
                 task_title = todo["title"]
                 writer.writerow(
                         [user_id, name, task_completed_status, task_title])
