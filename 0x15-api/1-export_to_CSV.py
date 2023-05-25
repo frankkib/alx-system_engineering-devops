@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-"""This script retrieves task data for a given user 
+"""This script retrieves task data for a given user
 from a public API and exports the data in CSV format.
 """
 import csv
@@ -31,12 +31,17 @@ def main():
         filename = f"{user_id}.csv"
         with open(filename, mode='w', newline='') as csv_file:
             writer = csv.writer(csv_file)
-            writer.writerow(["USER_ID", "USERNAME", "TASK_COMPLETED_STATUS", "TASK_TITLE"])
+            writer.writerow(
+                    ["USER_ID",
+                        "USERNAME",
+                        "TASK_COMPLETED_STATUS", "TASK_TITLE"])
 
             for todo in todo_result:
-                task_completed_status = "Completed" if todo["completed"] else "Not Completed"
+                task_completed_status = "Completed"
+                if todo["completed"] else "Not Completed"
                 task_title = todo["title"]
-                writer.writerow([user_id, name, task_completed_status, task_title])
+                writer.writerow(
+                        [user_id, name, task_completed_status, task_title])
 
         print(f"Task data exported to {filename} successfully.")
 
@@ -46,4 +51,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-
