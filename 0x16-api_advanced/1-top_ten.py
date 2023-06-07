@@ -1,7 +1,7 @@
 #!/usr/bin/python3
+"""module that finds the number of hot posts"""
 import json
 import requests
-"""module that finds the number of hot posts"""
 
 
 def top_ten(subreddit):
