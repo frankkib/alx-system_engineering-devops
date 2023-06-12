@@ -21,9 +21,7 @@ def top_ten(subreddit):
                     print(title)
             else:
                 print("No posts found.")
-        elif response.status_code == 302:
-            print("None")
         else:
-            print("Error: {}".format(response.status_code))
+             print("None")
     except requests.exceptions.RequestException as e:
         print("Error: {}".format(e))
