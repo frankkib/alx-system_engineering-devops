@@ -22,6 +22,6 @@ def top_ten(subreddit):
             else:
                 print("No posts found.")
         else:
-             print("None")
+            print("None")
     except requests.exceptions.RequestException as e:
         print("Error: {}".format(e))
