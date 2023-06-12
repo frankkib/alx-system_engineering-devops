@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 """
-module for lsit of hot articles
+This nodule provides functions that interact with Reddit API
+and retrive information
 """
 import requests
 
@@ -10,6 +11,8 @@ def recurse(subreddit, hot_list=[]):
     Recursively queries the Reddit API and returns a
     list of titles of all hot articles
     for a given subreddit.
+    Returns:
+        list of  titles of hot articles
     """
     url = f"https://www.reddit.com/r/{subreddit}/hot.json"
     headers = {"User-Agent": "Mozilla/5.0"}
