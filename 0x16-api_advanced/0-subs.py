@@ -1,7 +1,7 @@
 #!/usr/bin/python3
+""""module for finding the number of subbs"""
 import json
 import requests
-""""module for finding the number of subbs"""
 
 
 def number_of_subscribers(subreddit):
