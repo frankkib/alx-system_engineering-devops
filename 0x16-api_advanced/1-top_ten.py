@@ -5,7 +5,9 @@ import requests
 
 
 def top_ten(subreddit):
-    """class for finding the number of hot posts"""
+    """class that queries Reddit API and prints out the
+    first ten hot post
+    """
     url = f"https://www.reddit.com/r/{subreddit}/hot.json?limit=10"
     headers = {"User-Agent": "Custom User Agent"}
     try:
