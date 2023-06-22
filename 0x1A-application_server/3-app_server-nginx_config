@@ -1,0 +1,27 @@
+# Listen on port 80
+server {
+    listen 80 default_server;
+    listen [::]:80 default_server ipv6only=on;
+
+    # Proxy requests to the AirBnB_clone_v2 application
+    location /airbnb-onepage/ {
+        proxy_pass http://127.0.0.1:5000;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    }
+   location /airbnb-dynamic/number_odd_or_even/ {
+        proxy_pass http://127.0.0.1:5001/;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+    }
+
+    # Handle 404 errors
+    error_page 404 /404.html;
+    location = /404.html {
+        root /var/www/html;
+        internal;
+    }
+}
+
